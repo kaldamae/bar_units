@@ -64,6 +64,20 @@ def main(filters, selection):
 if __name__ == '__main__':
   if len(sys.argv) == 1:
     filters, selection = default
+    # TODO: separate these from stuff that simulator actually needs
+    filters += [
+      # ["type", "in", ["bot", "tank"]],
+      # ["type", "in", ["bot", "tank", "ship"]],
+      # ["name", "in", ["corak", "armfido"]],
+      # ["name", "in", ["armthor", "armbanth"]],
+      # ["name", "not in", ["mando", "gremlin", "decom"]],  # TODO: arm/cor
+      ["dps1", ">", 0],
+      # ["techlevel", "in", [1, 2]],
+      ["techlevel", "is", 2]
+      # ["arm", "is", True],
+    ]
+    selection = ["name", "type", "techlevel", "buildcostmetal", "buildcostenergy", "health", "maxvelocity",
+                 "collisionvolumescales", "all_weapons"]
   elif len(sys.argv) == 2:
     fname = sys.argv[1]
     if fname == "site":
@@ -74,3 +88,6 @@ if __name__ == '__main__':
       filters, selection = default
   
   main(filters, selection)
+
+  # "id", "buildtime", "sightdistance", "dps", "range", "dps_per_metal", "health_per_metal",
+  # "maxwaterdepth", (see vist pole igal asjal olemas)
