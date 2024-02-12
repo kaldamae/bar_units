@@ -6,11 +6,44 @@ import re
 from src import github, files, process, parse, output
 filterOptions = {
     "default": (
-        [["armorcore", "is", True]],
-        [
-            "id"
-        ]
-    ),
+  [
+    # ["type", "not in", ["ship", "air", "notland", "building"]],
+    # ["type", "in", ["bot", "tank"]],  # "building"
+    # ["id", "in", ["corgol", "correap"]],
+    # ["id", "not in", ["corpyro", "armfast", "armlatnk", "corak", "armpw", "armflea", "armfav", "corfav"]],  # fast (kas siit on puudu?)
+    # ["id", "not in", ["corwolv", "armsam", "cormist", "armrock", "corstorm", "corvroc", "armmerl",
+    #                     "cortrem", "corhrk", "armmanni", "armmart", "cormart", "armsnipe", "cormort", "corban",
+    #                     "armfboy"]],  # long-range (T1 on kuni rocket bot k.a, T2 on kuni fido v.a)
+    # ["id", "not in", ["corvroc", "armmerl", "corhrk", "cormort"]],  # reversible mortars TODO: some stuff missing, put merl, vroc and corhrk into non-accurate, and banisher into some accurate category
+    # ["id", "not in", ["corwolv", "cortrem", "armmart", "cormart"]],  # artillery, where is arm t1 art
+    # ["id", "not in", ["armfboy", "corgol"]],  # aoe
+    # ["id", "not in", ["corlevlr", "armjanus"]],  # T1 AoE tanks
+    # ["id", "not in",
+    #  ["cormando", "armgremlin", "armdecom", "cordecom", "armmav",  # specialist commando, stealth, niche
+    #   "armspid",  # EMP
+    #   "armcom", "corcom",  # commender
+    #   "armgplat", "corgplat",  # sea def
+    #   "armvader",  # bomb
+    #   "cormabm", "armscab",  # anti-nuke
+    #   "coramph", "corseal", "corparrow", "corgarp", "armpincer",  # amphibious units
+    #   "corgatreap", "Karkinos"  # unknown units
+    #   ]
+    #  ],
+    # mis asi on corgatreap
+    # ["id", "in", ["correap", "armfido", "cormort", "corcan"]],
+    # ["id", "in", ["armzeus", "corcan", "armfido", "correap", "armbull"]],
+    # ["id", "in", ["correap", "armbull"]],
+    # ["id", "in", ["armfido", "cormort"]],
+    # ["id", "in", ["corak", "armpw", "armflea", "armfav", "corgator"]],
+    # ["id", "in", ["armpw", "armflash", "armllt"]],
+    # ["techlevel", "in", [1, 2]],
+    # ["arm", "is", True],
+    # ["techlevel", "is", 1]
+    # ["id", "in", ["armraz", "corkarg"]],
+    ["dps1", ">", 0]
+  ],
+  ["id", "type", "techlevel", "buildcostmetal", "buildcostenergy", "health", "maxvelocity", "dps", "all_weapons"]
+),
     "site": (
         [["armorcore", "is", True]],
         [

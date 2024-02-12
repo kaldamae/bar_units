@@ -47,12 +47,15 @@ def convert_to_list(row, output_fields, all_weapons):
     output = [row[k] if type(row[k]) is not float else "{:.1f}".format(
         row[k]) for k in output_fields]
 
+    # safeguard against non-lowercase keys (both weapontype and WeaponType were used)
+    row = dict((k.lower() if type(k) is str else k, v) for k, v in row.items())
+
     if all_weapons:
         for k, v in row.get("weapondefs", {}).items():
             # Filter out some weapons which do not abide by normal rules
             if k not in ["repulsor1", "disintegrator"] and "default" in v["damage"] \
                     and v.get("explosiongenerator", "") != "custom:antinuke" and not v.get("paralyzer", False):
-                output += [k, v["weapontype"], v["range"], v.get("areaofeffect", ""), v["damage"]["default"],
+                output += [k, v.get("weapontype", "no-type"), v["range"], v.get("areaofeffect", ""), v["damage"]["default"],
                            v.get("reloadtime", "")]
 
     return output
