@@ -4,6 +4,7 @@ __pycache__/
 .~lock*
 *.code-workspace
 .vscode
+*venv*
 
 /.cache
 scratch.py

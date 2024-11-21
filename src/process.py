@@ -12,8 +12,7 @@ def preprocess(unit):
     unitStats = unit[1]
 
     # add the tech level
-    unitStats["techlevel"] = unitStats.get(
-        "customparams", {}).get("techlevel", 1)
+    unitStats["techlevel"] = unitStats.get("customparams", {}).get("techlevel", 1)
 
     # add the faction
     unitStats["arm"] = "ARM" in unitStats["objectname"]
@@ -47,8 +46,7 @@ def preprocess(unit):
     unitStats["dps1"] = _dps(unitStats, 1)
     unitStats["dps2"] = _dps(unitStats, 2)
     unitStats["dps3"] = _dps(unitStats, 3)
-    unitStats["dps"] = unitStats["dps1"] + \
-        unitStats["dps2"] + unitStats["dps3"]
+    unitStats["dps"] = unitStats["dps1"] + unitStats["dps2"] + unitStats["dps3"]
 
     # split out the catagories for easy use
     cat_list = unitStats.get("category", "").split(" ")
@@ -73,14 +71,11 @@ def preprocess(unit):
     unitStats["range1"] = _range(unitStats, 1)
     unitStats["range2"] = _range(unitStats, 2)
     unitStats["range3"] = _range(unitStats, 3)
-    unitStats["range"] = max(
-        unitStats["range1"], unitStats["range2"], unitStats["range3"])
+    unitStats["range"] = max(unitStats["range1"], unitStats["range2"], unitStats["range3"])
 
     # add pre metal stats
-    unitStats["dps_per_metal"] = unitStats["dps"] / \
-        max(unitStats["buildcostmetal"], 1)
-    unitStats["health_per_metal"] = unitStats["health"] / \
-        max(unitStats["buildcostmetal"], 1)
+    unitStats["dps_per_metal"] = unitStats["dps"] / max(unitStats["buildcostmetal"], 1)
+    unitStats["health_per_metal"] = unitStats["health"] / max(unitStats["buildcostmetal"], 1)
 
     return (unitID, unitStats)
 
@@ -92,7 +87,7 @@ def _dps(row, x):
         return 0
 
     keys = list(row["weapondefs"].keys())
-    weapon = row["weapondefs"][keys[x-1]]
+    weapon = row["weapondefs"][keys[x - 1]]
 
     if "reloadtime" not in weapon:
         return 0
@@ -113,6 +108,6 @@ def _range(row, x):
         return 0
 
     keys = list(row["weapondefs"].keys())
-    weapon = row["weapondefs"][keys[x-1]]
+    weapon = row["weapondefs"][keys[x - 1]]
 
     return weapon["range"]

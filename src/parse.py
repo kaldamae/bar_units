@@ -1,5 +1,6 @@
 import lupa
 from lupa import LuaRuntime
+
 lua = LuaRuntime()
 
 
@@ -11,9 +12,10 @@ def eval_string(path):
     # read the contents of a unit file
     f = open(path, "r")
     string = f.read()
+    raw_string = string
 
     # capture the unit name
-    unit_name = string.partition('\n')[0].replace("local unitName = ", "")
+    unit_name = string.partition("\n")[0].replace("local unitName = ", "")
 
     """
     in the lua code there are references to Spring.I18n
@@ -28,23 +30,26 @@ def eval_string(path):
     description = "units.heap.armsomethingsomething",
     """
     if "Spring.I18N('" in string:
-        unit_name = unit_name.replace(
-            "Spring.I18N('", "\"").replace("')", "\"", 1)
-        string = string \
-            .replace("Spring.I18N('", "\"") \
-            .replace("', { name = unitName }", "." + unit_name.split(".")[-1].replace("\"", "") + "'") \
-            .replace("')", "\"")
+        unit_name = unit_name.replace("Spring.I18N('", '"').replace("')", '"', 1)
+        string = (
+            string.replace("Spring.I18N('", '"')
+            .replace(
+                "', { name = unitName }", "." + unit_name.split(".")[-1].replace('"', "") + "'"
+            )
+            .replace("')", '"')
+        )
 
     string = string.replace("units.names.", "").replace("units.names.", "")
 
     try:
         data = lua.execute(string)
-        if(not lupa.lua_type(data) == "table"):
+        if not lupa.lua_type(data) == "table":
             print("found broken thing at " + path)
         return open_unit_table(data)
-    except lupa._lupa.LuaError as e:
+    except lupa.LuaError as e:
         if "attempt to index a nil value" in e.args[0] or (
-                "attempt to index global" in e.args[0] and "(a nil value)" in e.args[0]):
+            "attempt to index global" in e.args[0] and "(a nil value)" in e.args[0]
+        ):
             return None
         print("encountered the following error while parsing " + path)
         print(e)
